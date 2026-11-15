@@ -92,7 +92,7 @@ export function Navigation() {
             </Link>
 
             <Link
-              href="/about"
+              href="/about?tab=lifestyle"
               className={`text-sm font-semibold transition-all ${
                 isActive('/about')
                   ? 'bg-[#fbb03b] text-white px-4 py-1.5 rounded-full shadow-xs hover:bg-[#e59e2b]'
@@ -162,7 +162,7 @@ export function Navigation() {
             Tại viện (Cổng Bác sĩ lâm sàng)
           </Link>
           <Link
-            href="/about"
+            href="/about?tab=lifestyle"
             onClick={() => setMobileMenuOpen(false)}
             className={`block px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
               isActive('/about') ? 'bg-[#fbb03b] text-white' : 'text-slate-800 hover:bg-slate-50'
