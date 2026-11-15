@@ -173,9 +173,6 @@ export function Navigation() {
             Tại viện (Cổng Bác sĩ lâm sàng)
           </Link>
           <Link
-<<<<<<< HEAD
-            href="/about?tab=lifestyle"
-=======
             href="/song-khoe"
             onClick={() => setMobileMenuOpen(false)}
             className={`block px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
@@ -186,7 +183,6 @@ export function Navigation() {
           </Link>
           <Link
             href="/about"
->>>>>>> 4763e30 (Improve UI)
             onClick={() => setMobileMenuOpen(false)}
             className={`block px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
               isActive('/about') ? 'bg-[#fbb03b] text-white' : 'text-slate-800 hover:bg-slate-50'
