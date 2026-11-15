@@ -1,12 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Navigation } from "@/components/Navigation";
-import { ALL_RESEARCH_PAPERS, CLINICAL_GUIDELINES, EDUCATIONAL_RESOURCES } from "@/lib/researchData";
+import { 
+  ALL_RESEARCH_PAPERS, 
+  CLINICAL_GUIDELINES, 
+  LIFESTYLE_ARTICLES, 
+  EDUCATIONAL_RESOURCES 
+} from "@/lib/researchData";
+import { ArticleReaderModal, ArticleData } from "@/components/ArticleReaderModal";
 
 export default function AboutPage() {
   const [activeTab, setActiveTab] = useState<'overview' | 'model' | 'research'>('overview');
+  const [selectedArticle, setSelectedArticle] = useState<ArticleData | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [subTab, setSubTab] = useState<'lifestyle' | 'papers' | 'guidelines'>('papers');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get('tab');
+      const sub = params.get('sub');
+      if (tab === 'research' || tab === 'model' || tab === 'overview') {
+        setActiveTab(tab);
+      }
+      if (sub === 'lifestyle' || sub === 'papers' || sub === 'guidelines') {
+        setSubTab(sub);
+      }
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
@@ -64,7 +87,16 @@ export default function AboutPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full">
         {activeTab === 'overview' && <OverviewTab />}
         {activeTab === 'model' && <ModelTab />}
-        {activeTab === 'research' && <ResearchTab />}
+        {activeTab === 'research' && (
+          <ResearchTab
+            subTab={subTab}
+            setSubTab={setSubTab}
+            onOpenArticle={(art) => {
+              setSelectedArticle(art);
+              setIsModalOpen(true);
+            }}
+          />
+        )}
       </main>
 
       {/* Footer */}
@@ -76,6 +108,13 @@ export default function AboutPage() {
           </p>
         </div>
       </footer>
+
+      {/* Article Reader Modal */}
+      <ArticleReaderModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        article={selectedArticle}
+      />
     </div>
   );
 }
@@ -417,7 +456,15 @@ function ModelTab() {
 
 // ─── RESEARCH TAB ────────────────────────────────────────────────────────────
 
-function ResearchTab() {
+function ResearchTab({
+  subTab,
+  setSubTab,
+  onOpenArticle,
+}: {
+  subTab: 'lifestyle' | 'papers' | 'guidelines';
+  setSubTab: (tab: 'lifestyle' | 'papers' | 'guidelines') => void;
+  onOpenArticle: (article: ArticleData) => void;
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
@@ -441,112 +488,218 @@ function ResearchTab() {
   ).slice(0, 10);
 
   return (
-    <div className="space-y-10 animate-fadeIn">
-      {/* Search Input & Tag Filters */}
-      <div className="max-w-2xl mx-auto text-center">
-        <div className="relative mb-4">
-          <input
-            type="text"
-            placeholder="Tìm kiếm tài liệu, tác giả hoặc từ khóa nghiên cứu (ví dụ: WHO, SHAP, Machine Learning, ADA)..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-5 py-3.5 rounded-full border border-slate-300 focus:border-[#00b5cc] focus:ring-3 focus:ring-[#00b5cc]/15 outline-hidden text-sm bg-white shadow-xs pr-10"
-          />
-          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
-        </div>
-
-        {/* Quick Tag Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-1.5">
+    <div className="space-y-8 animate-fadeIn">
+      {/* 3 Medical Sub-tabs (Tách riêng 3 phân hệ theo chuẩn y tế BookingCare) */}
+      <div className="flex flex-col items-center text-center mb-6">
+        <p className="text-xs font-bold uppercase tracking-wider text-[#008299] mb-3">
+          Kho Tri Thức & Dữ Liệu Chuyên Môn
+        </p>
+        <div className="inline-flex p-1.5 rounded-full bg-slate-100/90 border border-slate-200/80 shadow-xs max-w-full overflow-x-auto">
           <button
             type="button"
-            onClick={() => setSelectedTag(null)}
-            className={`text-xs px-3 py-1 rounded-full font-medium transition-colors ${
-              selectedTag === null
-                ? "bg-[#00b5cc] text-white"
-                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+            onClick={() => setSubTab('lifestyle')}
+            className={`px-4 sm:px-6 py-2.5 rounded-full font-bold text-xs sm:text-sm transition-all flex items-center gap-2 whitespace-nowrap ${
+              subTab === 'lifestyle'
+                ? 'bg-[#00b5cc] text-white shadow-md shadow-[#00b5cc]/25'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
             }`}
           >
-            Tất cả ({ALL_RESEARCH_PAPERS.length})
+            <span>🌿</span>
+            <span>Cẩm Nang Sống Khỏe</span>
+            <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+              subTab === 'lifestyle' ? 'bg-white/25 text-white' : 'bg-slate-200 text-slate-700'
+            }`}>
+              {LIFESTYLE_ARTICLES.length}
+            </span>
           </button>
-          {allTags.map((tag) => (
-            <button
-              key={tag}
-              type="button"
-              onClick={() => setSelectedTag(tag === selectedTag ? null : tag)}
-              className={`text-xs px-3 py-1 rounded-full font-medium transition-colors ${
-                selectedTag === tag
-                  ? "bg-[#00b5cc] text-white"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
-            >
-              #{tag}
-            </button>
-          ))}
+
+          <button
+            type="button"
+            onClick={() => setSubTab('papers')}
+            className={`px-4 sm:px-6 py-2.5 rounded-full font-bold text-xs sm:text-sm transition-all flex items-center gap-2 whitespace-nowrap ${
+              subTab === 'papers'
+                ? 'bg-[#00b5cc] text-white shadow-md shadow-[#00b5cc]/25'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+            }`}
+          >
+            <span>📚</span>
+            <span>Nghiên Cứu Khoa Học</span>
+            <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+              subTab === 'papers' ? 'bg-white/25 text-white' : 'bg-slate-200 text-slate-700'
+            }`}>
+              {ALL_RESEARCH_PAPERS.length}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setSubTab('guidelines')}
+            className={`px-4 sm:px-6 py-2.5 rounded-full font-bold text-xs sm:text-sm transition-all flex items-center gap-2 whitespace-nowrap ${
+              subTab === 'guidelines'
+                ? 'bg-[#00b5cc] text-white shadow-md shadow-[#00b5cc]/25'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+            }`}
+          >
+            <span>📋</span>
+            <span>Tiêu Chuẩn Lâm Sàng</span>
+            <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+              subTab === 'guidelines' ? 'bg-white/25 text-white' : 'bg-slate-200 text-slate-700'
+            }`}>
+              {CLINICAL_GUIDELINES.length}
+            </span>
+          </button>
         </div>
       </div>
 
-      {/* Papers */}
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
-            <span>📚</span>
-            <span>Tài Liệu Nghiên Cứu Khoa Học</span>
-            <span className="text-sm font-semibold text-[#0099ad] bg-[#edfafb] px-2.5 py-0.5 rounded-full">
-              {filteredPapers.length} công trình
-            </span>
-          </h2>
-        </div>
+      {/* SUB-TAB 1: LIFESTYLE ARTICLES (Cẩm nang sống khỏe & Dinh dưỡng) */}
+      {subTab === 'lifestyle' && (
+        <div className="space-y-8 animate-fadeIn">
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-1.5">
+              Cẩm Nang Y Khoa & Lối Sống Lành Mạnh
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500">
+              Kiến thức dinh dưỡng, bài tập thể lực và hướng dẫn tự theo dõi chỉ số máu dành cho người có nguy cơ hoặc đang điều trị đái tháo đường.
+            </p>
+          </div>
 
-        <div className="space-y-4">
-          {filteredPapers.map((paper, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs hover:border-[#00b5cc] hover:shadow-md transition-all"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-2">
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
-                    {paper.title}
-                  </h3>
-                  <p className="text-xs text-slate-500 mt-1">
-                    {paper.authors} • <em>{paper.journal}</em> ({paper.year})
-                  </p>
-                </div>
-                <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full self-start flex-shrink-0 ${
-                  paper.impact === "Very High"
-                    ? "bg-rose-50 text-rose-700 border border-rose-200"
-                    : "bg-cyan-50 text-[#008299] border border-cyan-100"
-                }`}>
-                  {paper.impact} Impact
-                </span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {LIFESTYLE_ARTICLES.map((art) => (
+              <MedicalGridCard
+                key={art.id}
+                article={{
+                  id: art.id,
+                  title: art.title,
+                  category: art.category,
+                  image: art.image,
+                  readTime: art.readTime,
+                  summary: art.summary,
+                  content: art.content,
+                  keyTakeaways: art.keyTakeaways,
+                  tags: art.tags,
+                }}
+                onRead={() => onOpenArticle({
+                  id: art.id,
+                  title: art.title,
+                  category: art.category,
+                  image: art.image,
+                  readTime: art.readTime,
+                  summary: art.summary,
+                  content: art.content,
+                  keyTakeaways: art.keyTakeaways,
+                  tags: art.tags,
+                })}
+              />
+            ))}
+          </div>
+
+          {/* Practical Lifestyle Recommendations Box */}
+          <div className="bg-[#edfafb] rounded-3xl p-6 sm:p-8 border border-[#b2eaf1]">
+            <h3 className="text-base sm:text-lg font-bold text-[#008299] mb-4 flex items-center gap-2">
+              <span>🥗</span> 3 Nguyên Tắc Vàng Ngăn Ngừa Tiến Triển Tiểu Đường
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-white p-5 rounded-2xl border border-[#b2eaf1]/60 shadow-xs">
+                <div className="text-2xl mb-2">🍽️</div>
+                <h4 className="font-bold text-slate-900 text-sm mb-1">Phương Pháp Đĩa Ăn (Plate Method)</h4>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  1/2 đĩa là rau củ xanh không chứa tinh bột; 1/4 là đạm nạc (cá, ức gà, đậu hũ); 1/4 là tinh bột chậm (yến mạch, gạo lứt, khoai lang).
+                </p>
               </div>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                {paper.summary}
-              </p>
-              <div className="flex items-center justify-between pt-3 border-t border-slate-100">
-                <div className="flex flex-wrap gap-1.5">
-                  {paper.tags.map((tag, i) => (
-                    <span
-                      key={i}
-                      onClick={() => setSelectedTag(tag)}
-                      className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-medium hover:bg-[#edfafb] hover:text-[#008299] cursor-pointer transition-colors"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-                <a
-                  href={paper.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs font-bold text-[#0099ad] hover:text-[#007b8b] flex items-center gap-1 group"
-                >
-                  <span>Xem tài liệu gốc</span>
-                  <span className="group-hover:translate-x-0.5 transition-transform">→</span>
-                </a>
+              <div className="bg-white p-5 rounded-2xl border border-[#b2eaf1]/60 shadow-xs">
+                <div className="text-2xl mb-2">🏃‍♂️</div>
+                <h4 className="font-bold text-slate-900 text-sm mb-1">Quy Tắc Vận Động 150 Phút</h4>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Tối thiểu 30 phút đi bộ nhanh hoặc đạp xe mỗi ngày (5 ngày/tuần). Đi bộ nhẹ 10 phút sau bữa ăn giúp giảm tức thì đỉnh đường huyết.
+                </p>
+              </div>
+              <div className="bg-white p-5 rounded-2xl border border-[#b2eaf1]/60 shadow-xs">
+                <div className="text-2xl mb-2">🩸</div>
+                <h4 className="font-bold text-slate-900 text-sm mb-1">Tầm Soát HbA1c Định Kỳ</h4>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Xét nghiệm máu 3-6 tháng/lần. Giữ HbA1c dưới 5.7% là mục tiêu an toàn bảo vệ mạch máu và thận khỏi các biến chứng lâu dài.
+                </p>
               </div>
             </div>
-          ))}
+          </div>
+        </div>
+      )}
+
+      {/* SUB-TAB 2: SCIENTIFIC RESEARCH PAPERS (20 công trình - Giao diện thẻ Card Grid như Ảnh 1) */}
+      {subTab === 'papers' && (
+        <div className="space-y-6 animate-fadeIn">
+          {/* Search Input & Quick Tag Filter */}
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="relative mb-4">
+              <input
+                type="text"
+                placeholder="Tìm kiếm tài liệu, tác giả hoặc từ khóa nghiên cứu (ví dụ: WHO, SHAP, Machine Learning, ADA)..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-5 py-3.5 rounded-full border border-slate-300 focus:border-[#00b5cc] focus:ring-3 focus:ring-[#00b5cc]/15 outline-hidden text-sm bg-white shadow-xs pr-11"
+              />
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-base">🔍</span>
+            </div>
+
+            {/* Quick Tag Pills */}
+            <div className="flex flex-wrap items-center justify-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => setSelectedTag(null)}
+                className={`text-xs px-3 py-1 rounded-full font-medium transition-colors ${
+                  selectedTag === null
+                    ? "bg-[#00b5cc] text-white shadow-xs"
+                    : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+                }`}
+              >
+                Tất cả ({ALL_RESEARCH_PAPERS.length})
+              </button>
+              {allTags.map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => setSelectedTag(tag === selectedTag ? null : tag)}
+                  className={`text-xs px-3 py-1 rounded-full font-medium transition-colors ${
+                    selectedTag === tag
+                      ? "bg-[#00b5cc] text-white shadow-xs"
+                      : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+                  }`}
+                >
+                  #{tag}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Results count header */}
+          <div className="flex items-center justify-between pt-2">
+            <h2 className="text-lg sm:text-xl font-bold text-slate-900 flex items-center gap-2">
+              <span>📚</span>
+              <span>Tài Liệu Nghiên Cứu Khoa Học</span>
+              <span className="text-xs font-semibold text-[#0099ad] bg-[#edfafb] px-2.5 py-0.5 rounded-full">
+                {filteredPapers.length} công trình
+              </span>
+            </h2>
+            {selectedTag && (
+              <button
+                onClick={() => setSelectedTag(null)}
+                className="text-xs text-[#0099ad] hover:underline"
+              >
+                Xóa bộ lọc: #{selectedTag}
+              </button>
+            )}
+          </div>
+
+          {/* THE CARD GRID - Exact Image 1 Design (Thẻ lưới chuẩn y khoa BookingCare, không còn danh sách phẳng như Ảnh 2) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {filteredPapers.map((paper) => (
+              <MedicalGridCard
+                key={paper.id}
+                article={paper}
+                onRead={() => onOpenArticle(paper)}
+              />
+            ))}
+          </div>
 
           {filteredPapers.length === 0 && (
             <div className="text-center py-12 bg-white rounded-2xl border border-slate-200">
@@ -566,79 +719,182 @@ function ResearchTab() {
             </div>
           )}
         </div>
-      </div>
+      )}
 
-      {/* Clinical Guidelines */}
+      {/* SUB-TAB 3: CLINICAL GUIDELINES (3 bộ tiêu chuẩn lâm sàng quốc tế) */}
+      {subTab === 'guidelines' && (
+        <div className="space-y-6 animate-fadeIn">
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-1.5">
+              Quy Chuẩn Y Tế & Tiêu Chuẩn Lâm Sàng
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500">
+              Các tiêu chuẩn vàng toàn cầu và hướng dẫn quốc gia định hình toàn bộ ngưỡng chẩn đoán và phân loại nguy cơ trong DiabeTwin.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {CLINICAL_GUIDELINES.map((guideline) => (
+              <MedicalGridCard
+                key={guideline.id}
+                article={{
+                  id: guideline.id,
+                  title: guideline.title,
+                  organization: guideline.organization,
+                  year: guideline.year,
+                  category: guideline.category,
+                  image: guideline.image,
+                  readTime: guideline.readTime,
+                  impact: guideline.impact,
+                  summary: guideline.summary,
+                  keyTakeaways: guideline.keyTakeaways,
+                  clinicalApplication: guideline.clinicalApplication,
+                  link: guideline.link,
+                }}
+                onRead={() => onOpenArticle({
+                  id: guideline.id,
+                  title: guideline.title,
+                  organization: guideline.organization,
+                  year: guideline.year,
+                  category: guideline.category,
+                  image: guideline.image,
+                  readTime: guideline.readTime,
+                  impact: guideline.impact,
+                  summary: guideline.summary,
+                  keyTakeaways: guideline.keyTakeaways,
+                  clinicalApplication: guideline.clinicalApplication,
+                  link: guideline.link,
+                })}
+              />
+            ))}
+          </div>
+
+          {/* Diagnostic Threshold Summary Box */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xs">
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <span>⚖️</span> Bảng Tiêu Chuẩn Chẩn Đoán Đường Huyết (Theo ADA 2024 & Bộ Y Tế)
+            </h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs sm:text-sm">
+                <thead>
+                  <tr className="border-b border-slate-200 text-slate-500 font-semibold bg-slate-50/80">
+                    <th className="py-3 px-4 rounded-l-xl">Phân loại Nguy cơ</th>
+                    <th className="py-3 px-4">Chỉ số HbA1c</th>
+                    <th className="py-3 px-4">Đường huyết lúc đói (FPG)</th>
+                    <th className="py-3 px-4 rounded-r-xl">Khuyến nghị Y tế</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr>
+                    <td className="py-3.5 px-4 font-bold text-emerald-700">🟢 Bình Thường</td>
+                    <td className="py-3.5 px-4 font-semibold text-slate-800">&lt; 5.7%</td>
+                    <td className="py-3.5 px-4 font-semibold text-slate-800">&lt; 100 mg/dL (&lt; 5.6 mmol/L)</td>
+                    <td className="py-3.5 px-4 text-slate-600">Duy trì lối sống năng động, tái khám định kỳ hàng năm.</td>
+                  </tr>
+                  <tr className="bg-amber-50/40">
+                    <td className="py-3.5 px-4 font-bold text-amber-700">🟡 Tiền Đái Tháo Đường</td>
+                    <td className="py-3.5 px-4 font-semibold text-slate-800">5.7% - 6.4%</td>
+                    <td className="py-3.5 px-4 font-semibold text-slate-800">100 - 125 mg/dL (5.6 - 6.9 mmol/L)</td>
+                    <td className="py-3.5 px-4 text-slate-600">Giai đoạn vàng để can thiệp dinh dưỡng, giảm 5-7% cân nặng.</td>
+                  </tr>
+                  <tr className="bg-rose-50/40">
+                    <td className="py-3.5 px-4 font-bold text-rose-700">🔴 Đái Tháo Đường Lâm Sàng</td>
+                    <td className="py-3.5 px-4 font-semibold text-slate-800">≥ 6.5%</td>
+                    <td className="py-3.5 px-4 font-semibold text-slate-800">≥ 126 mg/dL (≥ 7.0 mmol/L)</td>
+                    <td className="py-3.5 px-4 text-slate-600">Khám bác sĩ chuyên khoa nội tiết, thiết lập phác đồ điều trị.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+}
+
+// ─── Grid Card Component matching Image 1 ────────────────────────────────────
+
+function MedicalGridCard({
+  article,
+  onRead,
+}: {
+  article: ArticleData;
+  onRead: () => void;
+}) {
+  return (
+    <div
+      onClick={onRead}
+      className="bg-white rounded-2xl border border-slate-100/90 overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-[#00b5cc]/40 transition-all flex flex-col justify-between group cursor-pointer"
+    >
       <div>
-        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-          <span>📋</span>
-          <span>Hướng Dẫn Điều Trị & Tiêu Chuẩn Lâm Sàng (Clinical Guidelines)</span>
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {CLINICAL_GUIDELINES.map((guideline, idx) => (
-            <a
-              key={idx}
-              href={guideline.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:border-[#00b5cc] hover:shadow-md transition-all flex flex-col justify-between group"
-            >
-              <div>
-                <span className="text-2xl mb-2 block">📋</span>
-                <h4 className="text-sm font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#00b5cc] transition-colors">
-                  {guideline.title}
-                </h4>
-                <p className="text-xs font-semibold text-[#0099ad] mb-2">
-                  {guideline.organization} • {guideline.year}
-                </p>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  {guideline.summary}
-                </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#0099ad]">
-                <span>✓ Tiêu chuẩn quốc tế</span>
-                <span>Xem tài liệu →</span>
-              </div>
-            </a>
-          ))}
+        {/* Real Thumbnail Image with rounded top */}
+        <div className="w-full h-36 sm:h-40 overflow-hidden bg-slate-100 relative">
+          <img
+            src={article.image}
+            alt={article.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          {article.impact && (
+            <span className={`absolute top-2.5 right-2.5 text-[10px] font-bold px-2 py-0.5 rounded-full shadow-xs ${
+              article.impact === 'Very High'
+                ? 'bg-rose-500 text-white'
+                : 'bg-[#00b5cc] text-white'
+            }`}>
+              {article.impact} Impact
+            </span>
+          )}
+        </div>
+
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#edfafb] text-[#0099ad]">
+              {article.category}
+            </span>
+            <span className="text-[10px] text-slate-400">
+              {article.readTime || (article.year ? `${article.year}` : '')}
+            </span>
+          </div>
+
+          <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug mb-1 line-clamp-2 group-hover:text-[#00b5cc] transition-colors">
+            {article.title}
+          </h3>
+
+          {(article.authors || article.organization) && (
+            <p className="text-[11px] text-slate-400 italic line-clamp-1 mb-1.5">
+              {article.authors || article.organization} {article.journal ? `• ${article.journal}` : ''}
+            </p>
+          )}
+
+          <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+            {article.summary}
+          </p>
         </div>
       </div>
 
-      {/* Educational Resources */}
-      <div>
-        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-          <span>🎓</span>
-          <span>Tài Nguyên Giáo Dục Y Khoa (Educational Resources)</span>
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {EDUCATIONAL_RESOURCES.map((resource, idx) => (
-            <a
-              key={idx}
-              href={resource.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:border-[#00b5cc] hover:shadow-md transition-all flex items-start gap-4 group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-[#edfafb] text-[#0099ad] flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-105 transition-transform">
-                {resource.icon}
-              </div>
-              <div>
-                <h4 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-[#00b5cc] transition-colors">
-                  {resource.title}
-                </h4>
-                <p className="text-xs text-slate-500 leading-relaxed mb-2">
-                  {resource.description}
-                </p>
-                <span className="text-xs font-semibold text-[#0099ad] inline-flex items-center gap-1">
-                  <span>Tìm hiểu thêm</span>
-                  <span>→</span>
-                </span>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
+      <div className="px-4 pb-4 pt-1 flex items-center justify-between">
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onRead();
+          }}
+          className="text-xs font-semibold text-[#0099ad] hover:text-[#007b8b] inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
+        >
+          <span>Đọc bài viết</span>
+          <span>→</span>
+        </button>
 
+        {article.link && (
+          <span className="text-[10px] text-slate-400 font-medium flex items-center gap-0.5">
+            <span>Tài liệu gốc</span>
+            <svg className="w-3 h-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </span>
+        )}
+      </div>
     </div>
   );
 }

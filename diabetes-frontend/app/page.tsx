@@ -3,9 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Navigation } from "@/components/Navigation";
+import { FEATURED_ARTICLES } from "@/lib/researchData";
+import { ArticleReaderModal, ArticleData } from "@/components/ArticleReaderModal";
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedArticle, setSelectedArticle] = useState<ArticleData | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Only the original core services of DiabeTwin - strictly relevant to diabetes screening & clinical portal
   const coreServices = [
@@ -448,7 +452,7 @@ export default function Home() {
               </p>
             </div>
             <Link
-              href="/about"
+              href="/about?tab=research"
               className="text-xs sm:text-sm font-semibold text-[#0099ad] hover:text-[#007b8b] px-3.5 py-1.5 rounded-full bg-white hover:bg-slate-50 transition-colors border border-slate-200"
             >
               Xem tất cả nghiên cứu
@@ -456,39 +460,16 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-            
-            <RealArticleCard
-              image="/research_images/vietnam_who_diabetes.jpg"
-              tag="Dịch tễ học WHO"
-              time="5 phút đọc"
-              title="Gánh nặng Đái tháo đường tại Việt Nam & Tầm soát sớm"
-              desc="Báo cáo chính thức từ Tổ chức Y tế Thế giới (WHO) về xu hướng gia tăng bệnh tiểu đường tại Việt Nam và các giải pháp can thiệp sớm."
-            />
-
-            <RealArticleCard
-              image="/research_images/explainable_ai_medical.jpg"
-              tag="Trí tuệ Nhân tạo"
-              time="6 phút đọc"
-              title="Mô hình AI Hộp trắng SHAP trong Lâm sàng: Bác sĩ cần gì?"
-              desc="Nghiên cứu từ PMLR về cách AI minh bạch hóa các quyết định y khoa, giải thích tầm ảnh hưởng của từng chỉ số sinh học."
-            />
-
-            <RealArticleCard
-              image="/research_images/blood_glucose_lab.jpg"
-              tag="Chẩn đoán & ML"
-              time="7 phút đọc"
-              title="Dự đoán Nguy cơ Đái tháo đường bằng Machine Learning"
-              desc="Công trình trên Healthcare Technology Letters về ứng dụng học máy phân tích dữ liệu lâm sàng và tối ưu hóa độ nhạy phát hiện bệnh."
-            />
-
-            <RealArticleCard
-              image="/research_images/clinical_research_doc.jpg"
-              tag="Tiêu chuẩn Y tế"
-              time="8 phút đọc"
-              title="Thống kê Toàn cầu IDF Atlas & Tiêu chuẩn ADA Standards of Care"
-              desc="Tổng hợp dữ liệu dịch tễ học từ Liên đoàn Đái tháo đường Quốc tế và hướng dẫn chuẩn đoán, phân loại nguy cơ của ADA 2024."
-            />
-
+            {FEATURED_ARTICLES.map((article) => (
+              <RealArticleCard
+                key={article.id}
+                article={article}
+                onRead={() => {
+                  setSelectedArticle(article);
+                  setIsModalOpen(true);
+                }}
+              />
+            ))}
           </div>
 
         </div>
@@ -594,6 +575,13 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Article Reader Modal */}
+      <ArticleReaderModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        article={selectedArticle}
+      />
     </div>
   );
 }
@@ -669,26 +657,23 @@ function CleanStepCard({
 }
 
 function RealArticleCard({
-  image,
-  tag,
-  time,
-  title,
-  desc,
+  article,
+  onRead,
 }: {
-  image: string;
-  tag: string;
-  time: string;
-  title: string;
-  desc: string;
+  article: ArticleData;
+  onRead: () => void;
 }) {
   return (
-    <div className="bg-white rounded-2xl border border-slate-100/90 overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-[#00b5cc]/30 transition-all flex flex-col justify-between group">
+    <div
+      onClick={onRead}
+      className="bg-white rounded-2xl border border-slate-100/90 overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-[#00b5cc]/40 transition-all flex flex-col justify-between group cursor-pointer"
+    >
       <div>
         {/* Real Thumbnail Image with rounded top */}
         <div className="w-full h-36 sm:h-40 overflow-hidden bg-slate-100 relative">
           <img
-            src={image}
-            alt={title}
+            src={article.image}
+            alt={article.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </div>
@@ -696,27 +681,31 @@ function RealArticleCard({
         <div className="p-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#edfafb] text-[#0099ad]">
-              {tag}
+              {article.category}
             </span>
-            <span className="text-[10px] text-slate-400">{time}</span>
+            <span className="text-[10px] text-slate-400">{article.readTime}</span>
           </div>
           <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug mb-1.5 line-clamp-2 group-hover:text-[#00b5cc] transition-colors">
-            {title}
+            {article.title}
           </h3>
           <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
-            {desc}
+            {article.summary}
           </p>
         </div>
       </div>
 
       <div className="px-4 pb-4 pt-1">
-        <Link 
-          href="/about" 
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onRead();
+          }}
           className="text-xs font-semibold text-[#0099ad] hover:text-[#007b8b] inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
         >
           <span>Đọc bài viết</span>
           <span>→</span>
-        </Link>
+        </button>
       </div>
     </div>
   );
