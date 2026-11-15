@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Navigation } from "@/components/Navigation";
+import { ALL_RESEARCH_PAPERS, CLINICAL_GUIDELINES, EDUCATIONAL_RESOURCES } from "@/lib/researchData";
 
 export default function AboutPage() {
   const [activeTab, setActiveTab] = useState<'overview' | 'model' | 'research'>('overview');
@@ -260,19 +261,42 @@ function ModelTab() {
                     AdaBoostClassifier
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-700 mb-4 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-700 mb-3 leading-relaxed">
                   Huấn luyện trên <strong>~100.000 hồ sơ bệnh án lâm sàng</strong>, dành cho môi trường bệnh viện/phòng khám nơi bác sĩ cần công cụ hỗ trợ ra quyết định độ chính xác cao.
                 </p>
-                <ul className="text-xs sm:text-sm text-slate-600 space-y-2">
+
+                {/* Real Architecture Diagram from Old Web */}
+                <div className="mb-4 bg-white p-2.5 rounded-xl border border-[#b2eaf1] shadow-xs">
+                  <p className="text-[11px] font-bold text-slate-500 mb-1.5 flex items-center gap-1">
+                    <span>🔬</span> Sơ đồ luồng xử lý lâm sàng AdaBoost:
+                  </p>
+                  <img
+                    src="/model_images/model_for_hospital_v2.png"
+                    alt="Sơ đồ mô hình lâm sàng Doctor Model"
+                    className="w-full rounded-lg object-contain bg-slate-50 max-h-48"
+                  />
+                </div>
+
+                <ul className="text-xs sm:text-sm text-slate-600 space-y-2 mb-4">
                   <li>• Tối ưu hóa <strong>độ nhạy (recall ≥ 80%)</strong> với nhóm ca dương tính để hạn chế tối đa bỏ sót ca bệnh.</li>
                   <li>• Giao diện kết quả chuyên sâu tích hợp biểu đồ SHAP giải thích cho từng bệnh nhân.</li>
                   <li>• Phù hợp áp dụng song song với quy trình khám sàng lọc tiêu chuẩn.</li>
                 </ul>
               </div>
-              <div className="mt-6 pt-4 border-t border-[#b2eaf1]">
+
+              <div className="mt-4 pt-4 border-t border-[#b2eaf1] flex flex-wrap gap-2.5">
+                <a
+                  href="/diabetes_report.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-[#00b5cc] text-[#008299] hover:bg-[#dcf6f9] text-xs font-bold shadow-xs transition-colors"
+                >
+                  <span>📊 Xem Báo cáo Huấn luyện (HTML)</span>
+                  <span className="text-[10px]">↗</span>
+                </a>
                 <Link
                   href="/doctor"
-                  className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-[#00b5cc] hover:bg-[#0099ad] text-white text-xs sm:text-sm font-bold shadow-xs transition-colors w-full sm:w-auto"
+                  className="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-[#00b5cc] hover:bg-[#0099ad] text-white text-xs font-bold shadow-xs transition-colors"
                 >
                   🩺 Trải nghiệm Cổng Bác sĩ
                 </Link>
@@ -288,20 +312,43 @@ function ModelTab() {
                     LGBMClassifier
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-700 mb-4 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-700 mb-3 leading-relaxed">
                   Huấn luyện với <strong>70.692 mẫu dữ liệu</strong> từ khảo sát 
                   <strong> CDC BRFSS (Behavioral Risk Factor Surveillance System)</strong>, tập trung vào thói quen sinh hoạt và thể trạng.
                 </p>
-                <ul className="text-xs sm:text-sm text-slate-600 space-y-2">
+
+                {/* Real Architecture Diagram from Old Web */}
+                <div className="mb-4 bg-white p-2.5 rounded-xl border border-purple-200 shadow-xs">
+                  <p className="text-[11px] font-bold text-slate-500 mb-1.5 flex items-center gap-1">
+                    <span>🏠</span> Sơ đồ luồng xử lý tại nhà LightGBM:
+                  </p>
+                  <img
+                    src="/model_images/model_for_home_v2.png"
+                    alt="Sơ đồ mô hình tại nhà Home Model"
+                    className="w-full rounded-lg object-contain bg-slate-50 max-h-48"
+                  />
+                </div>
+
+                <ul className="text-xs sm:text-sm text-slate-600 space-y-2 mb-4">
                   <li>• Ưu tiên <strong>tốc độ và sự ổn định</strong>, mượt mà trên mọi thiết bị di động.</li>
                   <li>• Bộ câu hỏi thân thiện, dễ trả lời cho người dùng không có kiến thức y khoa chuyên sâu.</li>
                   <li>• Sàng lọc nguy cơ sớm tại nhà, định hướng người dùng đi khám chuyên khoa khi có dấu hiệu bất thường.</li>
                 </ul>
               </div>
-              <div className="mt-6 pt-4 border-t border-purple-200">
+
+              <div className="mt-4 pt-4 border-t border-purple-200 flex flex-wrap gap-2.5">
+                <a
+                  href="/diabetes_report_for_AI_at_home.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-purple-400 text-purple-800 hover:bg-purple-100 text-xs font-bold shadow-xs transition-colors"
+                >
+                  <span>📈 Xem Báo cáo Huấn luyện (HTML)</span>
+                  <span className="text-[10px]">↗</span>
+                </a>
                 <Link
                   href="/user-prediction"
-                  className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs sm:text-sm font-bold shadow-xs transition-colors w-full sm:w-auto"
+                  className="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-xs transition-colors"
                 >
                   🏠 Sàng lọc Nguy cơ Tại nhà
                 </Link>
@@ -372,91 +419,90 @@ function ModelTab() {
 
 function ResearchTab() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
-  const researchPapers = [
-    {
-      title: "IDF Diabetes Atlas, 10th ed.",
-      authors: "International Diabetes Federation",
-      journal: "International Diabetes Federation",
-      year: 2021,
-      impact: "Very High",
-      summary: "Số liệu dịch tễ học và thống kê toàn cầu về bệnh đái tháo đường từ Liên đoàn Đái tháo đường Quốc tế.",
-      link: "https://diabetesatlas.org/data-by-location/global/",
-      tags: ["Epidemiology", "Global Statistics", "IDF"]
-    },
-    {
-      title: "The growing burden of diabetes in Viet Nam",
-      authors: "World Health Organization",
-      journal: "WHO Country Office Vietnam",
-      year: 2024,
-      impact: "High",
-      summary: "Báo cáo của WHO về gánh nặng gia tăng của bệnh tiểu đường tại Việt Nam và các giải pháp can thiệp sớm.",
-      link: "https://www.who.int/vietnam/news/feature-stories/detail/the-growing-burden-of-diabetes-in-viet-nam",
-      tags: ["Vietnam", "Epidemiology", "WHO"]
-    },
-    {
-      title: "What clinicians want: contextualizing explainable machine learning for clinical end use",
-      authors: "S. Tonekaboni, S. Joshi, K. D. McCradden, A. Goldenberg",
-      journal: "Proceedings of Machine Learning Research (PMLR)",
-      year: 2019,
-      impact: "Very High",
-      summary: "Nghiên cứu về nhu cầu thực tế của Bác sĩ đối với các mô hình AI có khả năng giải thích (Explainable AI) trong lâm sàng.",
-      link: "https://proceedings.mlr.press/v106/tonekaboni19a.html",
-      tags: ["Explainable AI", "SHAP", "Clinical Decision"]
-    },
-    {
-      title: "Diabetes prediction using machine learning and explainable AI techniques",
-      authors: "I. Tasin, T. U. Nabil, S. Islam, R. Khan",
-      journal: "Healthcare Technology Letters",
-      year: 2022,
-      impact: "High",
-      summary: "Tích hợp thuật toán học máy và phương pháp giải thích AI nhằm tối ưu hóa độ nhạy trong dự đoán nguy cơ tiểu đường.",
-      link: "https://doi.org/10.1049/htl2.12039",
-      tags: ["Machine Learning", "Health Tech", "XAI"]
-    },
-    {
-      title: "Assessment of machine learning algorithms to detect early disease outcomes",
-      authors: "R. A. Calvert and others",
-      journal: "BMC Medicine",
-      year: 2019,
-      impact: "Very High",
-      summary: "Đánh giá toàn diện các thuật toán học máy trong phát hiện sớm nguy cơ bệnh mạn tính.",
-      link: "https://doi.org/10.1186/s12916-019-1426-2",
-      tags: ["Early Detection", "Algorithm Assessment", "BMC"]
-    },
-  ];
-
-  const filteredPapers = researchPapers.filter(paper => {
+  const filteredPapers = ALL_RESEARCH_PAPERS.filter((paper) => {
     const q = searchQuery.toLowerCase();
-    return (
+    const matchesSearch =
       paper.title.toLowerCase().includes(q) ||
       paper.authors.toLowerCase().includes(q) ||
-      paper.tags.some(t => t.toLowerCase().includes(q))
-    );
+      paper.journal.toLowerCase().includes(q) ||
+      paper.summary.toLowerCase().includes(q) ||
+      paper.tags.some((t) => t.toLowerCase().includes(q));
+
+    const matchesTag = selectedTag ? paper.tags.includes(selectedTag) : true;
+
+    return matchesSearch && matchesTag;
   });
+
+  // Extract top tags for quick filtering
+  const allTags = Array.from(
+    new Set(ALL_RESEARCH_PAPERS.flatMap((p) => p.tags))
+  ).slice(0, 10);
 
   return (
     <div className="space-y-10 animate-fadeIn">
-      {/* Search Input */}
-      <div className="max-w-xl mx-auto">
-        <div className="relative">
+      {/* Search Input & Tag Filters */}
+      <div className="max-w-2xl mx-auto text-center">
+        <div className="relative mb-4">
           <input
             type="text"
-            placeholder="Tìm kiếm tài liệu, tác giả hoặc từ khóa nghiên cứu..."
+            placeholder="Tìm kiếm tài liệu, tác giả hoặc từ khóa nghiên cứu (ví dụ: WHO, SHAP, Machine Learning, ADA)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-3 rounded-full border border-slate-300 focus:border-[#00b5cc] focus:ring-3 focus:ring-[#00b5cc]/15 outline-hidden text-sm bg-white shadow-xs"
+            className="w-full px-5 py-3.5 rounded-full border border-slate-300 focus:border-[#00b5cc] focus:ring-3 focus:ring-[#00b5cc]/15 outline-hidden text-sm bg-white shadow-xs pr-10"
           />
           <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
+        </div>
+
+        {/* Quick Tag Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setSelectedTag(null)}
+            className={`text-xs px-3 py-1 rounded-full font-medium transition-colors ${
+              selectedTag === null
+                ? "bg-[#00b5cc] text-white"
+                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+            }`}
+          >
+            Tất cả ({ALL_RESEARCH_PAPERS.length})
+          </button>
+          {allTags.map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              onClick={() => setSelectedTag(tag === selectedTag ? null : tag)}
+              className={`text-xs px-3 py-1 rounded-full font-medium transition-colors ${
+                selectedTag === tag
+                  ? "bg-[#00b5cc] text-white"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
+            >
+              #{tag}
+            </button>
+          ))}
         </div>
       </div>
 
       {/* Papers */}
       <div>
-        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">📚 Tài Liệu Nghiên Cứu Khoa Học</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+            <span>📚</span>
+            <span>Tài Liệu Nghiên Cứu Khoa Học</span>
+            <span className="text-sm font-semibold text-[#0099ad] bg-[#edfafb] px-2.5 py-0.5 rounded-full">
+              {filteredPapers.length} công trình
+            </span>
+          </h2>
+        </div>
+
         <div className="space-y-4">
           {filteredPapers.map((paper, idx) => (
-            <div key={idx} className="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs hover:border-[#00b5cc] transition-all">
+            <div
+              key={idx}
+              className="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs hover:border-[#00b5cc] hover:shadow-md transition-all"
+            >
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-2">
                 <div>
                   <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
@@ -466,7 +512,11 @@ function ResearchTab() {
                     {paper.authors} • <em>{paper.journal}</em> ({paper.year})
                   </p>
                 </div>
-                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-cyan-50 text-[#008299] border border-cyan-100 self-start">
+                <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full self-start flex-shrink-0 ${
+                  paper.impact === "Very High"
+                    ? "bg-rose-50 text-rose-700 border border-rose-200"
+                    : "bg-cyan-50 text-[#008299] border border-cyan-100"
+                }`}>
                   {paper.impact} Impact
                 </span>
               </div>
@@ -476,7 +526,11 @@ function ResearchTab() {
               <div className="flex items-center justify-between pt-3 border-t border-slate-100">
                 <div className="flex flex-wrap gap-1.5">
                   {paper.tags.map((tag, i) => (
-                    <span key={i} className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-medium">
+                    <span
+                      key={i}
+                      onClick={() => setSelectedTag(tag)}
+                      className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-medium hover:bg-[#edfafb] hover:text-[#008299] cursor-pointer transition-colors"
+                    >
                       #{tag}
                     </span>
                   ))}
@@ -485,41 +539,106 @@ function ResearchTab() {
                   href={paper.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-bold text-[#0099ad] hover:text-[#007b8b] flex items-center gap-1"
+                  className="text-xs font-bold text-[#0099ad] hover:text-[#007b8b] flex items-center gap-1 group"
                 >
-                  <span>Xem tài liệu</span>
-                  <span>→</span>
+                  <span>Xem tài liệu gốc</span>
+                  <span className="group-hover:translate-x-0.5 transition-transform">→</span>
                 </a>
               </div>
             </div>
           ))}
+
+          {filteredPapers.length === 0 && (
+            <div className="text-center py-12 bg-white rounded-2xl border border-slate-200">
+              <p className="text-slate-500 text-sm">
+                Không tìm thấy tài liệu phù hợp với từ khóa &ldquo;{searchQuery}&rdquo;.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchQuery("");
+                  setSelectedTag(null);
+                }}
+                className="mt-3 text-xs font-semibold text-[#0099ad] hover:underline"
+              >
+                Đặt lại bộ lọc
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Clinical Guidelines */}
       <div>
-        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">📋 Hướng Dẫn Điều Trị & Tiêu Chuẩn Lâm Sàng</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <span>📋</span>
+          <span>Hướng Dẫn Điều Trị & Tiêu Chuẩn Lâm Sàng (Clinical Guidelines)</span>
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <BookingCareGuidelineCard
-            title="ADA Standards of Medical Care in Diabetes"
-            org="Hiệp hội Đái tháo đường Hoa Kỳ (ADA)"
-            year="2024"
-            desc="Tiêu chuẩn vàng trong chẩn đoán, phân loại và quản lý biến chứng đái tháo đường toàn cầu."
-          />
-          <BookingCareGuidelineCard
-            title="Hướng Dẫn Chẩn Đoán & Điều Trị Đái Tháo Đường Tuýp 2"
-            org="Bộ Y Tế Việt Nam"
-            year="2023"
-            desc="Quy chuẩn quốc gia về tiêu chuẩn chẩn đoán đường huyết, HbA1c và phác đồ can thiệp."
-          />
-          <BookingCareGuidelineCard
-            title="WHO Global Report on Diabetes"
-            org="Tổ chức Y tế Thế giới (WHO)"
-            year="2023"
-            desc="Chiến lược phòng ngừa dịch bệnh không lây nhiễm và tăng cường khả năng tiếp cận thuốc."
-          />
+          {CLINICAL_GUIDELINES.map((guideline, idx) => (
+            <a
+              key={idx}
+              href={guideline.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:border-[#00b5cc] hover:shadow-md transition-all flex flex-col justify-between group"
+            >
+              <div>
+                <span className="text-2xl mb-2 block">📋</span>
+                <h4 className="text-sm font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#00b5cc] transition-colors">
+                  {guideline.title}
+                </h4>
+                <p className="text-xs font-semibold text-[#0099ad] mb-2">
+                  {guideline.organization} • {guideline.year}
+                </p>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  {guideline.summary}
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#0099ad]">
+                <span>✓ Tiêu chuẩn quốc tế</span>
+                <span>Xem tài liệu →</span>
+              </div>
+            </a>
+          ))}
         </div>
       </div>
+
+      {/* Educational Resources */}
+      <div>
+        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <span>🎓</span>
+          <span>Tài Nguyên Giáo Dục Y Khoa (Educational Resources)</span>
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {EDUCATIONAL_RESOURCES.map((resource, idx) => (
+            <a
+              key={idx}
+              href={resource.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:border-[#00b5cc] hover:shadow-md transition-all flex items-start gap-4 group"
+            >
+              <div className="w-12 h-12 rounded-xl bg-[#edfafb] text-[#0099ad] flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-105 transition-transform">
+                {resource.icon}
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-[#00b5cc] transition-colors">
+                  {resource.title}
+                </h4>
+                <p className="text-xs text-slate-500 leading-relaxed mb-2">
+                  {resource.description}
+                </p>
+                <span className="text-xs font-semibold text-[#0099ad] inline-flex items-center gap-1">
+                  <span>Tìm hiểu thêm</span>
+                  <span>→</span>
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
     </div>
   );
 }

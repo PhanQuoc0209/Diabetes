@@ -434,59 +434,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* MEDICAL HANDBOOK (Ảnh 5 - Cẩm nang y khoa có ảnh minh họa thật của BookingCare, không còn trống trải) */}
+      {/* MEDICAL RESEARCH & HANDBOOK (Nghiên cứu y khoa & Cẩm nang - Ảnh y tế thực tế, không dùng ảnh web ngoài) */}
       <section className="py-10 sm:py-14 bg-[#f5f8fa] border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           
           <div className="flex items-center justify-between mb-6 sm:mb-8">
             <div>
               <h2 className="text-lg sm:text-2xl font-bold text-slate-900">
-                Cẩm Nang Y Khoa & Sống Khỏe
+                Nghiên Cứu Y Khoa & Cẩm Nang Sống Khỏe
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                Kiến thức chính thống giúp bạn chủ động phòng ngừa tiểu đường
+                Các công trình nghiên cứu chính thống và chuẩn y tế quốc tế được tích hợp trong DiabeTwin
               </p>
             </div>
             <Link
               href="/about"
               className="text-xs sm:text-sm font-semibold text-[#0099ad] hover:text-[#007b8b] px-3.5 py-1.5 rounded-full bg-white hover:bg-slate-50 transition-colors border border-slate-200"
             >
-              Xem tất cả
+              Xem tất cả nghiên cứu
             </Link>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             
             <RealArticleCard
-              image="/bookingcare/camnang/hba1c_test.png"
-              tag="Chỉ số sinh học"
+              image="/research_images/vietnam_who_diabetes.jpg"
+              tag="Dịch tễ học WHO"
               time="5 phút đọc"
-              title="Chỉ số HbA1c là gì? Mức độ nào cảnh báo tiền tiểu đường?"
-              desc="Hiểu rõ ý nghĩa của xét nghiệm HbA1c và cách đọc kết quả xét nghiệm máu chuẩn xác."
+              title="Gánh nặng Đái tháo đường tại Việt Nam & Tầm soát sớm"
+              desc="Báo cáo chính thức từ Tổ chức Y tế Thế giới (WHO) về xu hướng gia tăng bệnh tiểu đường tại Việt Nam và các giải pháp can thiệp sớm."
             />
 
             <RealArticleCard
-              image="/bookingcare/camnang/dinh_duong.jpg"
-              tag="Dinh dưỡng"
-              time="7 phút đọc"
-              title="Thực đơn 7 ngày giúp hạ chỉ số đường huyết an toàn"
-              desc="Các nhóm thực phẩm có chỉ số GI thấp giúp ổn định insulin và giảm tải chuyển hóa."
-            />
-
-            <RealArticleCard
-              image="/bookingcare/camnang/tap_luyen.png"
-              tag="Vận động"
-              time="4 phút đọc"
-              title="5 bài tập thể dục tốt nhất cho người có nguy cơ cao"
-              desc="Phương pháp rèn luyện sức bền và cơ bắp giúp tăng độ nhạy cảm insulin tự nhiên."
-            />
-
-            <RealArticleCard
-              image="/bookingcare/camnang/ai_medical.jpg"
-              tag="Công nghệ AI"
+              image="/research_images/explainable_ai_medical.jpg"
+              tag="Trí tuệ Nhân tạo"
               time="6 phút đọc"
-              title="SHAP Values là gì? AI giải thích nguyên nhân bệnh ra sao?"
-              desc="Tìm hiểu cách AI giải mã các mối tương quan phức tạp giữa BMI, huyết áp và tiểu đường."
+              title="Mô hình AI Hộp trắng SHAP trong Lâm sàng: Bác sĩ cần gì?"
+              desc="Nghiên cứu từ PMLR về cách AI minh bạch hóa các quyết định y khoa, giải thích tầm ảnh hưởng của từng chỉ số sinh học."
+            />
+
+            <RealArticleCard
+              image="/research_images/blood_glucose_lab.jpg"
+              tag="Chẩn đoán & ML"
+              time="7 phút đọc"
+              title="Dự đoán Nguy cơ Đái tháo đường bằng Machine Learning"
+              desc="Công trình trên Healthcare Technology Letters về ứng dụng học máy phân tích dữ liệu lâm sàng và tối ưu hóa độ nhạy phát hiện bệnh."
+            />
+
+            <RealArticleCard
+              image="/research_images/clinical_research_doc.jpg"
+              tag="Tiêu chuẩn Y tế"
+              time="8 phút đọc"
+              title="Thống kê Toàn cầu IDF Atlas & Tiêu chuẩn ADA Standards of Care"
+              desc="Tổng hợp dữ liệu dịch tễ học từ Liên đoàn Đái tháo đường Quốc tế và hướng dẫn chuẩn đoán, phân loại nguy cơ của ADA 2024."
             />
 
           </div>
