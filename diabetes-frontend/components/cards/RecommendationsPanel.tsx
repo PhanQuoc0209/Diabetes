@@ -236,11 +236,11 @@ export function RecommendationsPanel({
   const getPriorityColor = (priority: 'high' | 'medium' | 'low') => {
     switch (priority) {
       case 'high':
-        return isDoctorMode ? 'border-red-500 bg-red-50 hover:bg-red-100' : 'border-orange-500 bg-orange-50 hover:bg-orange-100';
+        return isDoctorMode ? 'border-red-500 bg-red-50 hover:bg-red-100' : 'border-red-500 bg-red-50 hover:bg-red-100';
       case 'medium':
-        return isDoctorMode ? 'border-amber-500 bg-amber-50 hover:bg-amber-100' : 'border-blue-500 bg-blue-50 hover:bg-blue-100';
+        return isDoctorMode ? 'border-amber-500 bg-amber-50 hover:bg-amber-100' : 'border-[#00b5cc] bg-[#edfafb] hover:bg-[#dcf6f9]';
       case 'low':
-        return isDoctorMode ? 'border-yellow-500 bg-yellow-50 hover:bg-yellow-100' : 'border-green-500 bg-green-50 hover:bg-green-100';
+        return isDoctorMode ? 'border-emerald-500 bg-emerald-50 hover:bg-emerald-100' : 'border-emerald-500 bg-emerald-50 hover:bg-emerald-100';
     }
   };
   
@@ -249,9 +249,9 @@ export function RecommendationsPanel({
       case 'high':
         return 'bg-red-500 text-white';
       case 'medium':
-        return 'bg-amber-500 text-white';
+        return isDoctorMode ? 'bg-amber-500 text-white' : 'bg-[#00b5cc] text-white';
       case 'low':
-        return 'bg-green-500 text-white';
+        return 'bg-emerald-500 text-white';
     }
   };
 
@@ -264,23 +264,23 @@ export function RecommendationsPanel({
             {/* Modal Header */}
             <div
               className={`px-8 py-6 bg-gradient-to-r ${
-                isDoctorMode ? 'from-amber-600 to-amber-700' : 'from-blue-600 to-blue-700'
+                isDoctorMode ? 'from-amber-600 to-amber-700' : 'from-[#00b5cc] to-[#0891b2]'
               }`}
             >
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-2xl font-bold text-white flex items-center gap-3">
-                    {isDoctorMode ? '👨‍⚕️ Clinical Recommendations' : '💡 Personalized Health Advice'}
+                    {isDoctorMode ? '👨‍⚕️ Khuyến Nghị Lâm Sàng (Clinical Recommendations)' : '💡 Lời Khuyên Sức Khỏe AI (Personalized Advice)'}
                   </h3>
-                  <p className={`text-sm mt-2 ${isDoctorMode ? 'text-amber-100' : 'text-blue-100'}`}>
-                    {isDoctorMode ? 'Evidence-based clinical suggestions' : 'AI analysis based on your health indicators'}
+                  <p className={`text-sm mt-2 ${isDoctorMode ? 'text-amber-100' : 'text-cyan-50'}`}>
+                    {isDoctorMode ? 'Gợi ý can thiệp lâm sàng dựa trên bằng chứng' : 'Phân tích từ mô hình AI dựa trên các chỉ số sức khỏe của bạn'}
                   </p>
                 </div>
                 <button
                   onClick={() => setIsExpanded(false)}
-                  className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-lg flex items-center justify-center transition-colors"
+                  className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-lg flex items-center justify-center transition-colors text-white"
                 >
-                  <span className="text-white text-xl">✕</span>
+                  <span className="text-xl">✕</span>
                 </button>
               </div>
             </div>
@@ -420,14 +420,14 @@ export function RecommendationsPanel({
           {/* Header */}
           <div
             className={`px-6 py-4 bg-gradient-to-r ${
-              isDoctorMode ? 'from-amber-600 to-amber-700' : 'from-blue-600 to-blue-700'
+              isDoctorMode ? 'from-amber-600 to-amber-700' : 'from-[#00b5cc] to-[#0891b2]'
             }`}
           >
             <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              {isDoctorMode ? '👨‍⚕️ Clinical Recommendations' : '💡 Personalized Health Advice'}
+              {isDoctorMode ? '👨‍⚕️ Khuyến Nghị Lâm Sàng' : '💡 Lời Khuyên Sức Khỏe AI'}
             </h3>
-            <p className={`text-sm mt-1 ${isDoctorMode ? 'text-amber-100' : 'text-blue-100'}`}>
-              {isDoctorMode ? 'Evidence-based clinical suggestions' : 'AI analysis based on your health indicators'}
+            <p className={`text-xs mt-1 ${isDoctorMode ? 'text-amber-100' : 'text-cyan-50'}`}>
+              {isDoctorMode ? 'Gợi ý can thiệp lâm sàng dựa trên bằng chứng' : 'Phân tích từ mô hình AI dựa trên các chỉ số của bạn'}
             </p>
           </div>
 
@@ -436,33 +436,33 @@ export function RecommendationsPanel({
             {recommendations.length === 0 ? (
               <div className="text-center py-8">
                 <div className="text-4xl mb-2">🤔</div>
-                <p className="text-gray-600 text-sm">No recommendations available</p>
+                <p className="text-slate-500 text-xs">Chưa có khuyến nghị khả dụng</p>
               </div>
             ) : (
               <div className="space-y-3">
                 {/* First few items as preview */}
                 {recommendations.slice(0, 2).map((section, sectionIdx) => (
                   <div key={sectionIdx} className="space-y-3">
-                    <div className={`py-2 px-3 rounded-lg font-semibold text-sm ${
-                      isDoctorMode ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'
+                    <div className={`py-1.5 px-3 rounded-lg font-bold text-xs ${
+                      isDoctorMode ? 'bg-amber-100 text-amber-800' : 'bg-[#edfafb] text-[#008299] border border-[#b2eaf1]'
                     }`}>
                       {section.title} ({section.items.length})
                     </div>
                     {section.items.slice(0, 2).map((item, itemIdx) => (
-                      <div key={itemIdx} className="flex gap-3 p-3 rounded-lg border-l-4 bg-gray-50">
-                        <div className="text-xl">{item.icon}</div>
-                        <p className="text-sm text-gray-700 line-clamp-2">{item.text}</p>
+                      <div key={itemIdx} className="flex gap-3 p-3 rounded-xl border-l-4 bg-slate-50 border-slate-300">
+                        <div className="text-xl flex-shrink-0">{item.icon}</div>
+                        <p className="text-xs sm:text-sm text-slate-700 line-clamp-2 leading-relaxed">{item.text}</p>
                       </div>
                     ))}
                     {section.items.length > 2 && (
-                      <p className="text-xs text-gray-500 italic">... and {section.items.length - 2} more items</p>
+                      <p className="text-[11px] text-slate-400 italic">... và còn {section.items.length - 2} khuyến nghị khác</p>
                     )}
                   </div>
                 ))}
                 
                 {recommendations.length > 2 && (
-                  <p className="text-xs text-gray-500 text-center py-2">
-                    ... and {recommendations.length - 2} more groups
+                  <p className="text-[11px] text-slate-400 text-center py-1">
+                    ... và thêm {recommendations.length - 2} nhóm chủ đề khác
                   </p>
                 )}
               </div>
@@ -471,30 +471,25 @@ export function RecommendationsPanel({
 
           {/* Footer with Expand Button */}
           <div
-            className={`px-6 py-3 border-t ${
-              isDoctorMode ? 'bg-amber-50 border-amber-200' : 'bg-blue-50 border-blue-200'
+            className={`px-6 py-3 border-t flex items-center justify-between gap-2 ${
+              isDoctorMode ? 'bg-amber-50/70 border-amber-200' : 'bg-slate-50 border-slate-100'
             }`}
           >
-            <div className="flex items-center justify-between">
-              <p className="text-xs text-gray-600">
-                ℹ️{' '}
-                {isDoctorMode
-                  ? 'These are AI-generated clinical suggestions. Always apply your clinical judgment.'
-                  : 'This is AI advice. Always consult a specialist doctor for accurate medical advice.'}
-              </p>
-              
-              <button
-                onClick={() => setIsExpanded(true)}
-                className={`flex items-center gap-2 px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
-                  isDoctorMode 
-                    ? 'bg-amber-100 hover:bg-amber-200 text-amber-700' 
-                    : 'bg-blue-100 hover:bg-blue-200 text-blue-700'
-                }`}
-              >
-                <span>🔍</span>
-                View Full Details
-              </button>
-            </div>
+            <p className="text-[11px] text-slate-500">
+              ℹ️ Lời khuyên định hướng tham khảo y tế
+            </p>
+            
+            <button
+              onClick={() => setIsExpanded(true)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+                isDoctorMode 
+                  ? 'bg-amber-100 hover:bg-amber-200 text-amber-800' 
+                  : 'bg-[#edfafb] hover:bg-[#dcf6f9] text-[#008299] border border-[#b2eaf1]'
+              }`}
+            >
+              <span>🔍</span>
+              <span>Xem Toàn Bộ</span>
+            </button>
           </div>
         </div>
       </div>
