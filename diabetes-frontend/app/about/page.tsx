@@ -53,6 +53,25 @@ export default function AboutPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // NutDesign Scroll-Triggered Reveal Animations Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    const elements = document.querySelectorAll(".scroll-reveal, .scroll-reveal-left, .scroll-reveal-right");
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!consultName.trim() || !consultPhone.trim()) return;
@@ -152,7 +171,7 @@ export default function AboutPage() {
       </div>
 
       {/* ── 2. INTRO BLOCK: CÂU CHUYỆN THƯƠNG HIỆU / SỨ MỆNH DIABETWIN ── */}
-      <section id="story" className="py-14 sm:py-20 px-4 sm:px-6 bg-white border-b border-slate-100">
+      <section id="story" className="py-14 sm:py-20 px-4 sm:px-6 bg-white border-b border-slate-100 scroll-reveal">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <div className="inline-block">
             <h2 className="text-xl sm:text-3xl font-bold tracking-widest text-slate-900 uppercase">
@@ -186,7 +205,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
             
             {/* Left: Image with Hover Zoom Container */}
-            <div className="relative group overflow-hidden bg-slate-100 flex items-center justify-center p-6 sm:p-10 border-b lg:border-b-0 lg:border-r border-slate-200/80">
+            <div className="relative group overflow-hidden bg-slate-100 flex items-center justify-center p-6 sm:p-10 border-b lg:border-b-0 lg:border-r border-slate-200/80 scroll-reveal-left">
               <div className="w-full max-w-lg bg-white p-4 rounded-2xl shadow-sm border border-slate-200/90 transition-transform duration-700 ease-out group-hover:scale-103">
                 <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
                   <span className="text-[11px] font-bold text-[#008299] uppercase tracking-wider flex items-center gap-1.5">
@@ -205,7 +224,7 @@ export default function AboutPage() {
             </div>
 
             {/* Right: Text Description */}
-            <div className="p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-5">
+            <div className="p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-5 scroll-reveal-right">
               <div className="space-y-2">
                 <span className="text-xs font-bold uppercase tracking-widest text-[#008299]">
                   Chuyên Khoa Lâm Sàng • Bệnh Viện
@@ -265,7 +284,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
 
             {/* Left: Text Description */}
-            <div className="order-2 lg:order-1 p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-5">
+            <div className="order-2 lg:order-1 p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-5 scroll-reveal-left">
               <div className="space-y-2">
                 <span className="text-xs font-bold uppercase tracking-widest text-purple-700">
                   Sàng Lọc Tại Nhà • Y Tế Cộng Đồng
@@ -317,7 +336,7 @@ export default function AboutPage() {
             </div>
 
             {/* Right: Image with Hover Zoom Container */}
-            <div className="order-1 lg:order-2 relative group overflow-hidden bg-purple-50/40 flex items-center justify-center p-6 sm:p-10 border-b lg:border-b-0 lg:border-l border-slate-200/80">
+            <div className="order-1 lg:order-2 relative group overflow-hidden bg-purple-50/40 flex items-center justify-center p-6 sm:p-10 border-b lg:border-b-0 lg:border-l border-slate-200/80 scroll-reveal-right">
               <div className="w-full max-w-lg bg-white p-4 rounded-2xl shadow-sm border border-purple-100 transition-transform duration-700 ease-out group-hover:scale-103">
                 <div className="flex items-center justify-between pb-3 border-b border-purple-50 mb-3">
                   <span className="text-[11px] font-bold text-purple-800 uppercase tracking-wider flex items-center gap-1.5">
@@ -345,7 +364,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
 
             {/* Left: Interactive SHAP Breakdown Bars Card */}
-            <div className="relative group overflow-hidden bg-slate-100 flex items-center justify-center p-6 sm:p-10 border-b lg:border-b-0 lg:border-r border-slate-200/80">
+            <div className="relative group overflow-hidden bg-slate-100 flex items-center justify-center p-6 sm:p-10 border-b lg:border-b-0 lg:border-r border-slate-200/80 scroll-reveal-left">
               <div className="w-full max-w-lg bg-white p-6 rounded-2xl shadow-sm border border-slate-200/90 transition-transform duration-700 ease-out group-hover:scale-102 space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <span className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
@@ -372,7 +391,7 @@ export default function AboutPage() {
             </div>
 
             {/* Right: Text Description */}
-            <div className="p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-5">
+            <div className="p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-5 scroll-reveal-right">
               <div className="space-y-2">
                 <span className="text-xs font-bold uppercase tracking-widest text-[#008299]">
                   Minh Bạch Hộp Trắng • Explainable AI
@@ -413,7 +432,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
 
             {/* Left: Text Description */}
-            <div className="p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-5">
+            <div className="p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-5 scroll-reveal-left">
               <div className="space-y-2">
                 <span className="text-xs font-bold uppercase tracking-widest text-[#008299]">
                   Cam Kết Chuẩn Mực • Hiệu Quả Y Tế
@@ -440,7 +459,7 @@ export default function AboutPage() {
             </div>
 
             {/* Right: 4 Statistic Cards Grid (Nutdesign Numbers showcase) */}
-            <div className="p-8 sm:p-12 bg-slate-50 border-t lg:border-t-0 lg:border-l border-slate-200/80">
+            <div className="p-8 sm:p-12 bg-slate-50 border-t lg:border-t-0 lg:border-l border-slate-200/80 scroll-reveal-right">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 
                 <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-xs hover:border-[#00b5cc] transition-all">
@@ -475,7 +494,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── 4. TEAM SHOWCASE (Nutdesign Team Grid Style) ── */}
-      <section id="team" className="py-14 sm:py-20 px-4 sm:px-6 bg-[#f8fafc] border-b border-slate-200/80">
+      <section id="team" className="py-14 sm:py-20 px-4 sm:px-6 bg-[#f8fafc] border-b border-slate-200/80 scroll-reveal">
         <div className="max-w-7xl mx-auto space-y-12">
           
           <div className="text-center max-w-3xl mx-auto space-y-3">
@@ -534,7 +553,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── 5. CORE VALUES (Nutdesign Giá Trị Cốt Lõi Grid) ── */}
-      <section id="values" className="py-14 sm:py-20 px-4 sm:px-6 bg-white border-b border-slate-200/80">
+      <section id="values" className="py-14 sm:py-20 px-4 sm:px-6 bg-white border-b border-slate-200/80 scroll-reveal">
         <div className="max-w-7xl mx-auto space-y-12">
           
           <div className="text-center max-w-3xl mx-auto space-y-3">
@@ -584,7 +603,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── 6. CONSULTATION & REGISTRATION FORM (Nutdesign "Nhận Giải Pháp Thiết Kế" Style) ── */}
-      <section id="consultation" className="py-14 sm:py-20 px-4 sm:px-6 bg-[#f8fafc] border-b border-slate-200/80">
+      <section id="consultation" className="py-14 sm:py-20 px-4 sm:px-6 bg-[#f8fafc] border-b border-slate-200/80 scroll-reveal">
         <div className="max-w-6xl mx-auto bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-12">
             
@@ -736,7 +755,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── 7. SEPARATE LINK TO SỐNG KHỎE (Tách Biệt Nghiên Cứu Khoa Học) ── */}
-      <section className="py-12 bg-white border-b border-slate-200/80 px-4 sm:px-6">
+      <section className="py-12 bg-white border-b border-slate-200/80 px-4 sm:px-6 scroll-reveal">
         <div className="max-w-6xl mx-auto bg-gradient-to-r from-[#dff6f9] via-[#ebfafc] to-[#e1f7f9] rounded-3xl p-6 sm:p-10 border border-[#b2eaf1] shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="max-w-2xl space-y-2">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[#008299] text-xs font-bold border border-[#b2eaf1]">
