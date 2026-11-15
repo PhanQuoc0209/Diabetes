@@ -47,7 +47,7 @@ export default function Home() {
       title: "Cẩm nang Sống khỏe Tiểu đường",
       subtitle: "Kiến thức y khoa chuẩn xác, hướng dẫn phòng ngừa chủ động",
       icon: "/bookingcare/kham_tu_xa.png",
-      href: "/about",
+      href: "/song-khoe",
     },
   ];
 
@@ -452,7 +452,7 @@ export default function Home() {
               </p>
             </div>
             <Link
-              href="/about?tab=research"
+              href="/song-khoe#papers-section"
               className="text-xs sm:text-sm font-semibold text-[#0099ad] hover:text-[#007b8b] px-3.5 py-1.5 rounded-full bg-white hover:bg-slate-50 transition-colors border border-slate-200"
             >
               Xem tất cả nghiên cứu

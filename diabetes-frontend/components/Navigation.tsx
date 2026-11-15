@@ -56,13 +56,13 @@ export function Navigation() {
             </Link>
           </div>
 
-          {/* Middle: Navigation Pills (Tất cả, Tại nhà, Tại viện, Sống khỏe) */}
-          <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+          {/* Middle: Navigation Pills (Tất cả, Tại nhà, Tại viện, Sống khỏe, Giới thiệu) */}
+          <nav className="hidden md:flex items-center gap-3 lg:gap-6">
             <Link
               href="/"
               className={`text-sm font-semibold transition-all ${
                 isActive('/')
-                  ? 'bg-[#fbb03b] text-white px-4 py-1.5 rounded-full shadow-xs hover:bg-[#e59e2b]'
+                  ? 'bg-[#fbb03b] text-white px-3.5 py-1.5 rounded-full shadow-xs hover:bg-[#e59e2b]'
                   : 'text-slate-800 hover:text-[#00b5cc]'
               }`}
             >
@@ -73,7 +73,7 @@ export function Navigation() {
               href="/user-prediction"
               className={`text-sm font-semibold transition-all ${
                 isActive('/user-prediction')
-                  ? 'bg-[#fbb03b] text-white px-4 py-1.5 rounded-full shadow-xs hover:bg-[#e59e2b]'
+                  ? 'bg-[#fbb03b] text-white px-3.5 py-1.5 rounded-full shadow-xs hover:bg-[#e59e2b]'
                   : 'text-slate-800 hover:text-[#00b5cc]'
               }`}
             >
@@ -84,7 +84,7 @@ export function Navigation() {
               href="/doctor"
               className={`text-sm font-semibold transition-all ${
                 isActive('/doctor')
-                  ? 'bg-[#fbb03b] text-white px-4 py-1.5 rounded-full shadow-xs hover:bg-[#e59e2b]'
+                  ? 'bg-[#fbb03b] text-white px-3.5 py-1.5 rounded-full shadow-xs hover:bg-[#e59e2b]'
                   : 'text-slate-800 hover:text-[#00b5cc]'
               }`}
             >
@@ -92,14 +92,25 @@ export function Navigation() {
             </Link>
 
             <Link
-              href="/about?tab=lifestyle"
+              href="/song-khoe"
               className={`text-sm font-semibold transition-all ${
-                isActive('/about')
-                  ? 'bg-[#fbb03b] text-white px-4 py-1.5 rounded-full shadow-xs hover:bg-[#e59e2b]'
+                isActive('/song-khoe')
+                  ? 'bg-[#fbb03b] text-white px-3.5 py-1.5 rounded-full shadow-xs hover:bg-[#e59e2b]'
                   : 'text-slate-800 hover:text-[#00b5cc]'
               }`}
             >
               Sống khỏe
+            </Link>
+
+            <Link
+              href="/about"
+              className={`text-sm font-semibold transition-all ${
+                isActive('/about')
+                  ? 'bg-[#fbb03b] text-white px-3.5 py-1.5 rounded-full shadow-xs hover:bg-[#e59e2b]'
+                  : 'text-slate-800 hover:text-[#00b5cc]'
+              }`}
+            >
+              Giới thiệu
             </Link>
           </nav>
 
@@ -162,13 +173,26 @@ export function Navigation() {
             Tại viện (Cổng Bác sĩ lâm sàng)
           </Link>
           <Link
+<<<<<<< HEAD
             href="/about?tab=lifestyle"
+=======
+            href="/song-khoe"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`block px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+              isActive('/song-khoe') ? 'bg-[#fbb03b] text-white' : 'text-slate-800 hover:bg-slate-50'
+            }`}
+          >
+            Sống khỏe (Cẩm nang y khoa & Dinh dưỡng)
+          </Link>
+          <Link
+            href="/about"
+>>>>>>> 4763e30 (Improve UI)
             onClick={() => setMobileMenuOpen(false)}
             className={`block px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
               isActive('/about') ? 'bg-[#fbb03b] text-white' : 'text-slate-800 hover:bg-slate-50'
             }`}
           >
-            Sống khỏe (Cẩm nang & Nghiên cứu)
+            Giới thiệu (Về nền tảng & Mô hình AI)
           </Link>
         </div>
       )}
