@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 
 export default function AboutPage() {
   const [activeSection, setActiveSection] = useState<string>("story");
@@ -781,20 +782,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── 8. FOOTER ── */}
-      <footer className="bg-slate-950 text-slate-400 py-12 px-4 sm:px-6 text-xs text-center border-t border-slate-900">
-        <div className="max-w-7xl mx-auto space-y-3">
-          <div className="text-white text-base font-bold tracking-wider uppercase">
-            DiabeTwin • AI Healthcare Platform
-          </div>
-          <p className="text-slate-400 max-w-xl mx-auto">
-            Hệ sinh thái Trí tuệ Nhân tạo chẩn đoán và dự phòng sớm đái tháo đường, phát triển bởi nhóm kỹ sư Đại học FPT.
-          </p>
-          <div className="pt-4 border-t border-slate-800 text-slate-400">
-            © 2026 DiabeTwin. All rights reserved. Tuân thủ tiêu chuẩn ADA 2024 & Bộ Y Tế.
-          </div>
-        </div>
-      </footer>
+      {/* ── 8. SYNCHRONIZED MEDICAL CYAN FOOTER ── */}
+      <Footer />
 
       {/* ── FLOATING ACTION WIDGETS (Nutdesign bottom-right floating circle buttons) ── */}
       <div className="fixed bottom-6 right-5 z-50 flex flex-col gap-2.5">
@@ -816,7 +805,7 @@ export default function AboutPage() {
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             title="Cuộn lên đầu trang"
-            className="w-12 h-12 rounded-full bg-slate-900/80 hover:bg-slate-900 text-white flex items-center justify-center shadow-lg hover:scale-110 transition-all duration-300 backdrop-blur-xs animate-fadeIn"
+            className="w-12 h-12 rounded-full bg-[#008299] hover:bg-[#006e80] text-white flex items-center justify-center shadow-lg shadow-[#008299]/35 hover:scale-110 transition-all duration-300 backdrop-blur-xs animate-fadeIn border border-white/20"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M5 15l7-7 7 7" />

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 import { EnhancedResultsDisplay } from "@/components/EnhancedResultsDisplay";
 import { predictHome } from "@/lib/api";
 
@@ -261,14 +262,10 @@ export default function UserPredictionApp() {
         </div>
       </main>
 
-      <footer className="mt-16 border-t border-slate-200 bg-white py-8 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4">
-          <p>© 2026 DiabeTwin - Nền tảng Y tế Chăm sóc Sức khỏe Toàn diện</p>
-          <p className="mt-1 text-slate-400">
-            Kết quả sàng lọc dựa trên thuật toán học máy từ tập dữ liệu CDC BRFSS.
-          </p>
-        </div>
-      </footer>
+      {/* Synchronized Medical Cyan Footer */}
+      <div className="mt-16">
+        <Footer />
+      </div>
     </div>
   );
 }

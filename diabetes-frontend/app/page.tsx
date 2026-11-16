@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 import { FEATURED_ARTICLES } from "@/lib/researchData";
 import { ArticleReaderModal, ArticleData } from "@/components/ArticleReaderModal";
 
@@ -502,79 +503,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER - Soft, clean BookingCare Footer */}
-      <footer className="bg-white border-t border-slate-200 py-10 text-slate-600 text-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-            
-            {/* Column 1 */}
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-6 h-6 rounded-full bg-[#00b5cc] flex items-center justify-center text-white text-xs font-bold">
-                  +
-                </div>
-                <span className="text-lg font-bold text-[#fbb03b]">
-                  DiabeTwin
-                </span>
-              </div>
-              <p className="text-slate-500 leading-relaxed mb-3">
-                Nền tảng Y tế Chăm sóc Sức khỏe Toàn diện. Ứng dụng Trí tuệ Nhân tạo trong sàng lọc nguy cơ tiểu đường.
-              </p>
-              <div className="space-y-1 text-slate-500">
-                <p>📍 Lô B4/D21, Cầu Giấy, Hà Nội</p>
-                <p>📞 Hotline: <strong>024 7301 2468</strong></p>
-                <p>✉️ Email: support@diabetwin.vn</p>
-              </div>
-            </div>
-
-            {/* Column 2 */}
-            <div>
-              <h3 className="font-bold text-slate-800 mb-3">Dịch Vụ Y Tế</h3>
-              <ul className="space-y-2 text-slate-500">
-                <li><Link href="/user-prediction" className="hover:text-[#00b5cc]">Khám tại nhà</Link></li>
-                <li><Link href="/doctor" className="hover:text-[#00b5cc]">Cổng Bác sĩ lâm sàng</Link></li>
-                <li><Link href="/doctor" className="hover:text-[#00b5cc]">Phân tích tác động SHAP</Link></li>
-                <li><Link href="/about" className="hover:text-[#00b5cc]">Tra cứu chỉ số HbA1c</Link></li>
-              </ul>
-            </div>
-
-            {/* Column 3 */}
-            <div>
-              <h3 className="font-bold text-slate-800 mb-3">Hỗ Trợ & Chính Sách</h3>
-              <ul className="space-y-2 text-slate-500">
-                <li><Link href="/about" className="hover:text-[#00b5cc]">Về chúng tôi</Link></li>
-                <li><Link href="/about" className="hover:text-[#00b5cc]">Quy trình hoạt động</Link></li>
-                <li><Link href="/about" className="hover:text-[#00b5cc]">Chính sách bảo mật y tế</Link></li>
-                <li><Link href="/about" className="hover:text-[#00b5cc]">Điều khoản dịch vụ</Link></li>
-              </ul>
-            </div>
-
-            {/* Column 4 */}
-            <div>
-              <h3 className="font-bold text-slate-800 mb-3">Đối Tác & Pháp Lý</h3>
-              <p className="text-slate-500 mb-3 leading-relaxed">
-                Được bảo trợ công nghệ và nghiên cứu dữ liệu dựa trên các tập dữ liệu y tế quốc tế.
-              </p>
-              <div className="flex gap-2">
-                <span className="px-2.5 py-1 rounded-md bg-slate-50 border border-slate-200 text-[11px] text-slate-600">
-                  🛡️ SSL Encrypted
-                </span>
-                <span className="px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-[11px] text-emerald-700">
-                  ✓ Chuẩn Y Tế
-                </span>
-              </div>
-            </div>
-
-          </div>
-
-          <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-400 text-[11px]">
-            <p>© 2026 DiabeTwin - Nền tảng Y tế Chăm sóc Sức khỏe Toàn diện.</p>
-            <p className="text-center sm:text-right">
-              Kết quả phân tích chỉ mang tính tham khảo tầm soát, không thay thế chẩn đoán chuyên môn của Bác sĩ.
-            </p>
-          </div>
-        </div>
-      </footer>
+      {/* SYNCHRONIZED MEDICAL CYAN FOOTER */}
+      <Footer />
 
       {/* Article Reader Modal */}
       <ArticleReaderModal
