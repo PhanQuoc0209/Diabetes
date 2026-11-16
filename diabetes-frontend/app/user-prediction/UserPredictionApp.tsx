@@ -403,7 +403,7 @@ function Step1Personal({ formData, updateField, calculateBMI, onNext }: any) {
             <label className="text-xs sm:text-sm font-bold text-slate-800">
               Nhóm độ tuổi hiện tại
             </label>
-            <span className="px-3 py-1 rounded-full bg-[#00b5cc] text-white text-xs font-bold">
+            <span className="px-3 py-1 rounded-full bg-[#00b5cc] text-white text-xs font-bold shadow-xs">
               {ageGroups.find(a => a.id === formData.age)?.label || "40-44 tuổi"}
             </span>
           </div>
@@ -413,9 +413,12 @@ function Step1Personal({ formData, updateField, calculateBMI, onNext }: any) {
             max="13"
             value={formData.age}
             onChange={(e) => updateField("age", parseInt(e.target.value))}
+            style={{
+              background: `linear-gradient(to right, #00b5cc 0%, #00b5cc ${((formData.age - 1) / 12) * 100}%, #cbd5e1 ${((formData.age - 1) / 12) * 100}%, #cbd5e1 100%)`
+            }}
             className="w-full mt-2"
           />
-          <div className="flex justify-between text-[11px] text-slate-400 mt-2 font-medium">
+          <div className="flex justify-between text-[11px] text-slate-500 mt-2 font-medium">
             <span>18 tuổi</span>
             <span>50 tuổi</span>
             <span>80+ tuổi</span>
@@ -438,9 +441,12 @@ function Step1Personal({ formData, updateField, calculateBMI, onNext }: any) {
               step="0.01"
               value={formData.height}
               onChange={(e) => updateField("height", parseFloat(e.target.value))}
+              style={{
+                background: `linear-gradient(to right, #00b5cc 0%, #00b5cc ${((formData.height - 1.0) / 1.2) * 100}%, #cbd5e1 ${((formData.height - 1.0) / 1.2) * 100}%, #cbd5e1 100%)`
+              }}
               className="w-full"
             />
-            <div className="flex justify-between text-[11px] text-slate-400 mt-1">
+            <div className="flex justify-between text-[11px] text-slate-500 mt-1 font-medium">
               <span>1.0m</span>
               <span>2.2m</span>
             </div>
@@ -460,9 +466,12 @@ function Step1Personal({ formData, updateField, calculateBMI, onNext }: any) {
               step="1"
               value={formData.weight}
               onChange={(e) => updateField("weight", parseInt(e.target.value))}
+              style={{
+                background: `linear-gradient(to right, #00b5cc 0%, #00b5cc ${((formData.weight - 30) / 120) * 100}%, #cbd5e1 ${((formData.weight - 30) / 120) * 100}%, #cbd5e1 100%)`
+              }}
               className="w-full"
             />
-            <div className="flex justify-between text-[11px] text-slate-400 mt-1">
+            <div className="flex justify-between text-[11px] text-slate-500 mt-1 font-medium">
               <span>30kg</span>
               <span>150kg</span>
             </div>
@@ -762,9 +771,12 @@ function Step3Lifestyle({ formData, updateField, onBack, onSubmit }: any) {
             max="30"
             value={formData.mentHlth}
             onChange={(e) => updateField("mentHlth", parseInt(e.target.value))}
+            style={{
+              background: `linear-gradient(to right, #9333ea 0%, #9333ea ${(formData.mentHlth / 30) * 100}%, #cbd5e1 ${(formData.mentHlth / 30) * 100}%, #cbd5e1 100%)`
+            }}
             className="w-full mt-2"
           />
-          <div className="flex justify-between text-[11px] text-slate-400 mt-1">
+          <div className="flex justify-between text-[11px] text-slate-500 mt-1 font-medium">
             <span>0 ngày (Tốt)</span>
             <span>15 ngày</span>
             <span>30 ngày (Kém)</span>
@@ -786,9 +798,12 @@ function Step3Lifestyle({ formData, updateField, onBack, onSubmit }: any) {
             max="30"
             value={formData.physHlth}
             onChange={(e) => updateField("physHlth", parseInt(e.target.value))}
+            style={{
+              background: `linear-gradient(to right, #d97706 0%, #d97706 ${(formData.physHlth / 30) * 100}%, #cbd5e1 ${(formData.physHlth / 30) * 100}%, #cbd5e1 100%)`
+            }}
             className="w-full mt-2"
           />
-          <div className="flex justify-between text-[11px] text-slate-400 mt-1">
+          <div className="flex justify-between text-[11px] text-slate-500 mt-1 font-medium">
             <span>0 ngày (Tốt)</span>
             <span>15 ngày</span>
             <span>30 ngày (Kém)</span>
